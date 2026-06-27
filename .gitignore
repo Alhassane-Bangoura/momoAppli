@@ -24,6 +24,6 @@ dist-ssr
 *.sw?
 
 # Large binary installers - host separately
-public/*.exe
-public/*.msi
-public/*.dmg
+# public/*.exe
+# public/*.msi
+# public/*.dmg
