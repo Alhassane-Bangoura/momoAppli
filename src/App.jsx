@@ -122,11 +122,11 @@ function App() {
             </p>
             
             <div className="hero-actions animate-fadeup-d3" style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap' }}>
-              <a href="/Setup_Guinee_Ecole.exe" download className="btn btn-primary" style={{ fontSize: '1.05rem', padding: '0.9rem 1.8rem', boxShadow: '0 8px 30px rgba(99,102,241,0.4)' }}>
+              <a href="/Setup_Guinee_Ecole.exe" download target="_blank" rel="noopener noreferrer" className="btn btn-primary hero-btn" style={{ fontSize: '1.05rem', padding: '0.9rem 1.8rem', boxShadow: '0 8px 30px rgba(99,102,241,0.4)', transition: 'all 0.3s ease', cursor: 'pointer' }}>
                 <Download size={20} />
                 L'Application (.exe)
               </a>
-              <a href="/Setup_Compilateur.exe" download className="btn btn-secondary" style={{ fontSize: '1.05rem', padding: '0.9rem 1.8rem', background: 'rgba(99,102,241,0.05)', borderColor: 'var(--primary-color)', color: 'var(--primary-color)' }}>
+              <a href="/Setup_Compilateur.exe" download target="_blank" rel="noopener noreferrer" className="btn btn-secondary hero-btn" style={{ fontSize: '1.05rem', padding: '0.9rem 1.8rem', background: 'rgba(99,102,241,0.05)', borderColor: 'var(--primary-color)', color: 'var(--primary-color)', transition: 'all 0.3s ease', cursor: 'pointer' }}>
                 <Download size={20} />
                 Compilateur Requis (.exe)
               </a>
@@ -233,7 +233,7 @@ function App() {
             </div>
 
             <div className="download-links-list">
-              <a href="/Setup_Guinee_Ecole.exe" download className="download-item" aria-label="Télécharger Guinée École">
+              <a href="/Setup_Guinee_Ecole.exe" download target="_blank" rel="noopener noreferrer" className="download-item" aria-label="Télécharger Guinée École">
                 <div className="download-item-name">
                   <span>Guinée École (Installateur)</span>
                   <span>Windows (64/32 bits)</span>
@@ -243,7 +243,7 @@ function App() {
                 </div>
               </a>
 
-              <a href="/Setup_Compilateur.exe" download className="download-item" aria-label="Télécharger le compilateur">
+              <a href="/Setup_Compilateur.exe" download target="_blank" rel="noopener noreferrer" className="download-item" aria-label="Télécharger le compilateur">
                 <div className="download-item-name">
                   <span>Compilateur (Obligatoire)</span>
                   <span>Requis pour le fonctionnement</span>
@@ -357,9 +357,9 @@ function App() {
             <div>
               <div className="footer-title">Ressources</div>
               <div className="footer-links">
-                <a href="/Setup_Guinee_Ecole.exe" download>Télécharger l'application</a>
-                <a href="/Setup_Compilateur.exe" download>Télécharger le compilateur</a>
-                <a href="/Demo_Guinee_Ecole.mp4" target="_blank" rel="noreferrer">Vidéos de démonstration</a>
+                <a href="/Setup_Guinee_Ecole.exe" download target="_blank" rel="noopener noreferrer">Télécharger l'application</a>
+                <a href="/Setup_Compilateur.exe" download target="_blank" rel="noopener noreferrer">Télécharger le compilateur</a>
+                <a href="/Demo_Guinee_Ecole.mp4" target="_blank" rel="noopener noreferrer">Vidéos de démonstration</a>
               </div>
             </div>
 
