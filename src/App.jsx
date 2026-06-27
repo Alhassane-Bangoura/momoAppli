@@ -130,6 +130,10 @@ function App() {
                 <Download size={20} />
                 Compilateur Requis (.exe)
               </a>
+              <a href="https://drive.google.com/drive/folders/1pZavlhgzo-J177cKO5spry4nesrbUy5d" target="_blank" rel="noopener noreferrer" className="btn hero-btn" style={{ fontSize: '1.05rem', padding: '0.9rem 1.8rem', background: 'var(--surface-color)', border: '1px solid var(--border-color)', color: 'var(--text-main)', transition: 'all 0.3s ease', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '0.5rem', boxShadow: '0 4px 14px rgba(0,0,0,0.05)' }}>
+                <Play size={20} color="var(--primary-color)" />
+                Vidéos Démo
+              </a>
             </div>
 
             {/* Stats card */}
@@ -359,7 +363,7 @@ function App() {
               <div className="footer-links">
                 <a href="/Setup_Guinee_Ecole.exe" download target="_blank" rel="noopener noreferrer">Télécharger l'application</a>
                 <a href="/Setup_Compilateur.exe" download target="_blank" rel="noopener noreferrer">Télécharger le compilateur</a>
-                <a href="/Demo_Guinee_Ecole.mp4" target="_blank" rel="noopener noreferrer">Vidéos de démonstration</a>
+                <a href="https://drive.google.com/drive/folders/1pZavlhgzo-J177cKO5spry4nesrbUy5d" target="_blank" rel="noopener noreferrer">Vidéos de démonstration</a>
               </div>
             </div>
 
