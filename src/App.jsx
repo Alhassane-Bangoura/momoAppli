@@ -1,6 +1,7 @@
 import React from 'react';
 import { Download, Monitor, GraduationCap, Calculator, FileText, CreditCard, IdCard, WifiOff, Play, Shield, Menu, MessageCircle, CheckCircle2, ChevronRight, Settings, Rocket } from 'lucide-react';
 import logo from './assets/logoguineeecole (2).png';
+import MobileApp from './MobileApp';
 
 const WhatsAppIcon = ({ size = 24, color = "currentColor" }) => (
   <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -37,12 +38,17 @@ const TikTokIcon = ({ size = 24, color = "currentColor" }) => (
 );
 
 function App() {
+  const isMobile = window.innerWidth <= 768;
+  if (isMobile) return <MobileApp />;
   // Use WhatsApp number from user's other site or placeholder
   const waNumber = "+224620465582";
   const waMessage = "Bonjour, je suis intéressé par le logiciel Guinée École. J'aimerais avoir plus d'informations ou une démo.";
   const waLink = `https://wa.me/${waNumber.replace(/\+/g, '')}?text=${encodeURIComponent(waMessage)}`;
 
   const [activeTab, setActiveTab] = React.useState('');
+  const [mobileMenuOpen, setMobileMenuOpen] = React.useState(false);
+
+  const closeMobileMenu = () => setMobileMenuOpen(false);
 
   React.useEffect(() => {
     const observer = new IntersectionObserver((entries) => {
@@ -63,7 +69,7 @@ function App() {
     const animatedElements = document.querySelectorAll(
       '.animate-fadeup, .animate-fadeup-d1, .animate-fadeup-d2, .animate-fadeup-d3, .animate-scale, .hero-image-animate, .reveal-up'
     );
-    
+
     animatedElements.forEach(el => observer.observe(el));
 
     return () => observer.disconnect();
@@ -77,11 +83,11 @@ function App() {
             <div className="nav-brand-circle">
               <img src={logo} alt="Guinée École Logo" />
             </div>
-            <span style={{ 
-              fontWeight: 900, 
-              fontSize: '1.35rem', 
-              letterSpacing: '0.03em', 
-              textTransform: 'uppercase' 
+            <span style={{
+              fontWeight: 900,
+              fontSize: '1.35rem',
+              letterSpacing: '0.03em',
+              textTransform: 'uppercase'
             }}>
               <span style={{ color: 'var(--text-main)' }}>Guinée </span>
               <span style={{ color: 'var(--primary-color)' }}>École</span>
@@ -96,11 +102,25 @@ function App() {
               Essai Gratuit
             </a>
           </div>
-          <div className="mobile-menu" style={{ display: 'none' }}>
-            <Menu />
+          <div className="mobile-menu" onClick={() => setMobileMenuOpen(!mobileMenuOpen)} style={{ cursor: 'pointer', color: 'var(--text-main)', zIndex: 1001 }}>
+            {mobileMenuOpen ? <span style={{ fontSize: '1.5rem', fontWeight: 'bold', lineHeight: 1 }}>✕</span> : <Menu />}
           </div>
         </div>
       </nav>
+
+      {/* Mobile Drawer */}
+      {mobileMenuOpen && (
+        <>
+          <div onClick={closeMobileMenu} style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.5)', zIndex: 998, backdropFilter: 'blur(4px)' }} />
+          <div style={{ position: 'fixed', top: 0, right: 0, height: '100vh', width: '75%', maxWidth: '300px', background: 'var(--surface-color)', zIndex: 999, padding: '5rem 2rem 2rem', display: 'flex', flexDirection: 'column', gap: '0.5rem', boxShadow: '-8px 0 30px rgba(0,0,0,0.3)', borderLeft: '1px solid var(--surface-border)' }}>
+            <a href="#features" className="nav-link" onClick={() => { setActiveTab('features'); closeMobileMenu(); }} style={{ fontSize: '1.1rem', padding: '1rem 0', borderBottom: '1px solid var(--surface-border)' }}>Fonctionnalités</a>
+            <a href="#installation" className="nav-link" onClick={() => { setActiveTab('installation'); closeMobileMenu(); }} style={{ fontSize: '1.1rem', padding: '1rem 0', borderBottom: '1px solid var(--surface-border)' }}>Installation</a>
+            <a href="#pricing" className="nav-link" onClick={() => { setActiveTab('pricing'); closeMobileMenu(); }} style={{ fontSize: '1.1rem', padding: '1rem 0', borderBottom: '1px solid var(--surface-border)' }}>Tarifs</a>
+            <a href="#contact" className="nav-link" onClick={() => { setActiveTab('contact'); closeMobileMenu(); }} style={{ fontSize: '1.1rem', padding: '1rem 0', borderBottom: '1px solid var(--surface-border)' }}>Contact</a>
+            <a href="#installation" className="btn btn-primary" onClick={closeMobileMenu} style={{ marginTop: '1.5rem', textAlign: 'center' }}>Essai Gratuit</a>
+          </div>
+        </>
+      )}
 
       <main>
         {/* Hero Section */}
@@ -120,7 +140,7 @@ function App() {
               Guinée École vous libère des tâches fastidieuses. Notes, bulletins, paiements,
               cartes scolaires — tout géré en quelques clics, même sans connexion.
             </p>
-            
+
             <div className="hero-actions animate-fadeup-d3" style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap' }}>
               <a href="/Setup_Guinee_Ecole.exe" download target="_blank" rel="noopener noreferrer" className="btn btn-primary hero-btn" style={{ fontSize: '1.05rem', padding: '0.9rem 1.8rem', boxShadow: '0 8px 30px rgba(99,102,241,0.4)', transition: 'all 0.3s ease', cursor: 'pointer' }}>
                 <Download size={20} />
@@ -151,11 +171,12 @@ function App() {
             </div>
           </div>
 
-          <div className="hero-visual animate-fadeup-d3">
+          <div className="hero-visual animate-fadeup-d3" style={{ flex: '1', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
             <img
               src="/guinea_classroom.png"
               alt="École en Guinée avec étudiants"
               className="hero-image-animate"
+              style={{ width: '100%', maxWidth: '520px', borderRadius: '1.5rem', objectFit: 'cover' }}
             />
           </div>
         </section>
@@ -266,7 +287,7 @@ function App() {
             {/* Background effects */}
             <div style={{ position: 'absolute', top: '-50%', left: '-10%', width: '300px', height: '300px', background: 'rgba(255,255,255,0.1)', filter: 'blur(50px)', borderRadius: '50%' }}></div>
             <div style={{ position: 'absolute', bottom: '-50%', right: '-10%', width: '300px', height: '300px', background: 'rgba(255,255,255,0.1)', filter: 'blur(50px)', borderRadius: '50%' }}></div>
-            
+
             <div className="text-center" style={{ position: 'relative', zIndex: 1, marginBottom: '3rem' }}>
               <div style={{ display: 'inline-block', background: 'rgba(255,255,255,0.2)', color: 'white', padding: '0.3rem 1rem', borderRadius: '2rem', fontSize: '0.8rem', fontWeight: 700, letterSpacing: '0.05em', marginBottom: '1rem', textTransform: 'uppercase', backdropFilter: 'blur(4px)' }}>Offre Exclusive</div>
               <h2 style={{ color: 'white', marginBottom: '1rem' }}>Pourquoi passer à l'action aujourd'hui ?</h2>
@@ -304,34 +325,48 @@ function App() {
         {/* Pricing Section */}
         <section id="pricing" className="section container">
           <div className="text-center" style={{ marginBottom: '4rem' }}>
-            <h2 className="animate-fadeup">Un Investissement <span className="text-primary">Rentable</span></h2>
-            <p className="animate-fadeup-d1" style={{ margin: '0 auto' }}>Une licence annuelle pour votre établissement, avec support et mises à jour continus.</p>
+            <h2 className="animate-fadeup">Un Investissement <span className="text-primary">Transparent</span></h2>
+            <p className="animate-fadeup-d1" style={{ margin: '0 auto' }}>Acquérez le logiciel pour votre établissement et bénéficiez d'une licence annuelle très abordable.</p>
           </div>
 
-          <div className="animate-fadeup-d2" style={{ maxWidth: '500px', margin: '0 auto', background: 'var(--surface-color)', border: '1px solid var(--surface-border)', borderRadius: '1.5rem', padding: '3rem', position: 'relative', overflow: 'hidden', boxShadow: 'var(--shadow-lg)' }}>
-            <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: '6px', background: 'var(--primary-color)' }}></div>
+          <div className="animate-fadeup-d2 premium-card" style={{ maxWidth: '550px', margin: '0 auto', borderRadius: '1.5rem', padding: '3rem', position: 'relative', overflow: 'visible' }}>
+            <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: '6px', background: 'var(--primary-color)', borderTopLeftRadius: '1.5rem', borderTopRightRadius: '1.5rem' }}></div>
+
             <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '1rem' }}>
-              <span style={{ background: 'var(--primary-transparent)', color: 'var(--primary-color)', padding: '0.25rem 1rem', borderRadius: '1rem', fontSize: '0.875rem', fontWeight: 600 }}>ABONNEMENT ANNUEL</span>
-            </div>
-            <h3 style={{ fontSize: '1.5rem', textAlign: 'center', marginBottom: '1rem' }}>Licence Complète</h3>
-            <div style={{ textAlign: 'center', margin: '1rem 0' }}>
-              <span style={{ fontSize: '3rem', fontWeight: 800, color: 'var(--text-main)' }}>4 000 000</span>
-              <span style={{ color: 'var(--text-muted)', marginLeft: '0.5rem', fontWeight: 600 }}>GNF / an</span>
+              <span style={{ background: 'var(--primary-transparent)', color: 'var(--primary-color)', padding: '0.25rem 1rem', borderRadius: '1rem', fontSize: '0.875rem', fontWeight: 800, letterSpacing: '0.05em' }}>TARIFICATION CLAIRE</span>
             </div>
 
-            <p style={{ textAlign: 'center', fontSize: '0.9rem', color: 'var(--text-muted)', marginBottom: '2rem', padding: '0 1rem' }}>
-              * Prix discutable selon la taille et les besoins spécifiques de votre établissement.
-            </p>
+            <h3 className="gradient-text" style={{ fontSize: '1.8rem', textAlign: 'center', marginBottom: '2.5rem', fontWeight: 800 }}>Pack Déploiement & Licence</h3>
 
-            <ul style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: '1rem', marginBottom: '3rem', padding: '0 1rem' }}>
-              <li style={{ display: 'flex', gap: '1rem', alignItems: 'center', color: 'var(--text-main)' }}><CheckCircle2 size={20} className="text-accent" /> Accès à toutes les fonctionnalités</li>
-              <li style={{ display: 'flex', gap: '1rem', alignItems: 'center', color: 'var(--text-main)' }}><CheckCircle2 size={20} className="text-accent" /> Base de données locale sécurisée</li>
-              <li style={{ display: 'flex', gap: '1rem', alignItems: 'center', color: 'var(--text-main)' }}><CheckCircle2 size={20} className="text-accent" /> Support technique et formation inclus</li>
-              <li style={{ display: 'flex', gap: '1rem', alignItems: 'center', color: 'var(--text-main)' }}><CheckCircle2 size={20} className="text-accent" /> Mises à jour gratuites pendant toute l'année</li>
+            {/* Logiciel Price */}
+            <div className="price-box" style={{ background: 'var(--background-color)', padding: '1.5rem', borderRadius: '1rem', marginBottom: '1rem', border: '1px solid var(--border-color)', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+              <div style={{ fontSize: '0.85rem', color: 'var(--text-muted)', textTransform: 'uppercase', fontWeight: 700, letterSpacing: '0.05em', marginBottom: '0.5rem' }}>Achat du Logiciel (Une seule fois)</div>
+              <div style={{ display: 'flex', alignItems: 'baseline', gap: '0.5rem' }}>
+                <span style={{ fontSize: '2.5rem', fontWeight: 800, color: 'var(--text-main)' }}>1 000 000</span>
+                <span style={{ color: 'var(--primary-color)', fontWeight: 700 }}>GNF</span>
+              </div>
+              <div style={{ fontSize: '0.85rem', color: 'var(--text-muted)', marginTop: '0.5rem' }}>Inclut l'installation et la configuration initiale</div>
+            </div>
+
+            {/* Licence Price */}
+            <div className="price-box" style={{ background: 'var(--primary-transparent)', padding: '1.5rem', borderRadius: '1rem', marginBottom: '2rem', display: 'flex', flexDirection: 'column', alignItems: 'center', border: '1px solid transparent' }}>
+              <div style={{ fontSize: '0.85rem', color: 'var(--primary-color)', textTransform: 'uppercase', fontWeight: 700, letterSpacing: '0.05em', marginBottom: '0.5rem' }}>Renouvellement Licence (Annuel)</div>
+              <div style={{ display: 'flex', alignItems: 'baseline', gap: '0.5rem' }}>
+                <span style={{ fontSize: '2.5rem', fontWeight: 800, color: 'var(--primary-color)' }}>500 000</span>
+                <span style={{ color: 'var(--primary-color)', fontWeight: 700 }}>GNF / an</span>
+              </div>
+              <div style={{ fontSize: '0.85rem', color: 'var(--primary-color)', opacity: 0.8, marginTop: '0.5rem' }}>Support technique, maintenance et mises à jour</div>
+            </div>
+
+            <ul style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: '1rem', marginBottom: '3rem', padding: '0 0.5rem' }}>
+              <li className="animate-fadeup list-animate-1" style={{ display: 'flex', gap: '1rem', alignItems: 'flex-start', color: 'var(--text-main)' }}><CheckCircle2 size={20} className="text-accent" style={{ flexShrink: 0, marginTop: '2px' }} /> <span>Installation complète sur vos machines par notre équipe</span></li>
+              <li className="animate-fadeup list-animate-2" style={{ display: 'flex', gap: '1rem', alignItems: 'flex-start', color: 'var(--text-main)' }}><CheckCircle2 size={20} className="text-accent" style={{ flexShrink: 0, marginTop: '2px' }} /> <span>Base de données locale totalement privée et sécurisée</span></li>
+              <li className="animate-fadeup list-animate-3" style={{ display: 'flex', gap: '1rem', alignItems: 'flex-start', color: 'var(--text-main)' }}><CheckCircle2 size={20} className="text-accent" style={{ flexShrink: 0, marginTop: '2px' }} /> <span>Formation incluse pour le personnel administratif</span></li>
+              <li className="animate-fadeup list-animate-4" style={{ display: 'flex', gap: '1rem', alignItems: 'flex-start', color: 'var(--text-main)' }}><CheckCircle2 size={20} className="text-accent" style={{ flexShrink: 0, marginTop: '2px' }} /> <span>Assistance prioritaire via WhatsApp toute l'année</span></li>
             </ul>
 
-            <a href={waLink} target="_blank" rel="noreferrer" className="btn btn-primary" style={{ width: '100%' }}>
-              Contacter le commercial
+            <a href={waLink} target="_blank" rel="noreferrer" className="btn btn-primary btn-pulse btn-shine" style={{ width: '100%', fontSize: '1.1rem', padding: '1.2rem', textTransform: 'uppercase', fontWeight: 800, letterSpacing: '0.05em' }}>
+              Contacter pour commander
             </a>
           </div>
         </section>
@@ -345,11 +380,11 @@ function App() {
                 <div className="nav-brand-circle">
                   <img src={logo} alt="Guinée École Logo" />
                 </div>
-                <span style={{ 
-                  fontWeight: 900, 
-                  fontSize: '1.35rem', 
-                  letterSpacing: '0.03em', 
-                  textTransform: 'uppercase' 
+                <span style={{
+                  fontWeight: 900,
+                  fontSize: '1.35rem',
+                  letterSpacing: '0.03em',
+                  textTransform: 'uppercase'
                 }}>
                   <span style={{ color: 'var(--text-main)' }}>Guinée </span>
                   <span style={{ color: 'var(--primary-color)' }}>École</span>
@@ -376,7 +411,7 @@ function App() {
                 <a href="#">Demander une présentation physique</a>
               </div>
             </div>
-            
+
             <div>
               <div className="footer-title">Réseaux Sociaux</div>
               <div className="footer-links" style={{ flexDirection: 'row', gap: '1rem', flexWrap: 'wrap' }}>
