@@ -46,9 +46,6 @@ function App() {
   const waLink = `https://wa.me/${waNumber.replace(/\+/g, '')}?text=${encodeURIComponent(waMessage)}`;
 
   const [activeTab, setActiveTab] = React.useState('');
-  const [mobileMenuOpen, setMobileMenuOpen] = React.useState(false);
-
-  const closeMobileMenu = () => setMobileMenuOpen(false);
 
   React.useEffect(() => {
     const observer = new IntersectionObserver((entries) => {
@@ -102,25 +99,8 @@ function App() {
               Essai Gratuit
             </a>
           </div>
-          <div className="mobile-menu" onClick={() => setMobileMenuOpen(!mobileMenuOpen)} style={{ cursor: 'pointer', color: 'var(--text-main)', zIndex: 1001 }}>
-            {mobileMenuOpen ? <span style={{ fontSize: '1.5rem', fontWeight: 'bold', lineHeight: 1 }}>✕</span> : <Menu />}
-          </div>
         </div>
       </nav>
-
-      {/* Mobile Drawer */}
-      {mobileMenuOpen && (
-        <>
-          <div onClick={closeMobileMenu} style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.5)', zIndex: 998, backdropFilter: 'blur(4px)' }} />
-          <div style={{ position: 'fixed', top: 0, right: 0, height: '100vh', width: '75%', maxWidth: '300px', background: 'var(--surface-color)', zIndex: 999, padding: '5rem 2rem 2rem', display: 'flex', flexDirection: 'column', gap: '0.5rem', boxShadow: '-8px 0 30px rgba(0,0,0,0.3)', borderLeft: '1px solid var(--surface-border)' }}>
-            <a href="#features" className="nav-link" onClick={() => { setActiveTab('features'); closeMobileMenu(); }} style={{ fontSize: '1.1rem', padding: '1rem 0', borderBottom: '1px solid var(--surface-border)' }}>Fonctionnalités</a>
-            <a href="#installation" className="nav-link" onClick={() => { setActiveTab('installation'); closeMobileMenu(); }} style={{ fontSize: '1.1rem', padding: '1rem 0', borderBottom: '1px solid var(--surface-border)' }}>Installation</a>
-            <a href="#pricing" className="nav-link" onClick={() => { setActiveTab('pricing'); closeMobileMenu(); }} style={{ fontSize: '1.1rem', padding: '1rem 0', borderBottom: '1px solid var(--surface-border)' }}>Tarifs</a>
-            <a href="#contact" className="nav-link" onClick={() => { setActiveTab('contact'); closeMobileMenu(); }} style={{ fontSize: '1.1rem', padding: '1rem 0', borderBottom: '1px solid var(--surface-border)' }}>Contact</a>
-            <a href="#installation" className="btn btn-primary" onClick={closeMobileMenu} style={{ marginTop: '1.5rem', textAlign: 'center' }}>Essai Gratuit</a>
-          </div>
-        </>
-      )}
 
       <main>
         {/* Hero Section */}
