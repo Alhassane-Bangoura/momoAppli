@@ -16,7 +16,7 @@ export default function Tarifs() {
           Pas d'abonnement mensuel caché. Un achat unique, puis une licence annuelle très abordable.
         </p>
 
-        <div className="animate-fadeup-d2 premium-card" style={{ maxWidth: '550px', margin: '0 auto', borderRadius: '1.5rem', padding: '3rem', position: 'relative' }}>
+        <div className="premium-card" style={{ maxWidth: '550px', margin: '0 auto', borderRadius: '1.5rem', padding: '3rem', position: 'relative', animation: 'fadeInUp 0.8s ease-out forwards' }}>
           <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: '6px', background: 'var(--primary-color)', borderTopLeftRadius: '1.5rem', borderTopRightRadius: '1.5rem' }}></div>
           <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '1rem' }}>
             <span style={{ background: 'var(--primary-transparent)', color: 'var(--primary-color)', padding: '0.25rem 1rem', borderRadius: '1rem', fontSize: '0.875rem', fontWeight: 800, letterSpacing: '0.05em' }}>PACK DÉPLOIEMENT & LICENCE</span>
