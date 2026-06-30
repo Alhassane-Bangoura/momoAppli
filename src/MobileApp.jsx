@@ -332,44 +332,51 @@ export default function MobileApp() {
 
         {/* ======= PRICING ======= */}
         {tab === 'pricing' && (
-          <div style={{ padding: '1.5rem 1.4rem' }}>
-            <div style={{ textAlign: 'center', marginBottom: '1.5rem' }}>
+          <div style={{ padding: '1.5rem 1.4rem', paddingBottom: '2rem' }}>
+            <div style={{ textAlign: 'center', marginBottom: '2rem' }}>
               <div style={{ display: 'inline-block', background: 'rgba(129,140,248,0.12)', color: '#818CF8', padding: '0.25rem 0.9rem', borderRadius: '999px', fontSize: '0.7rem', fontWeight: 800, letterSpacing: '0.05em', marginBottom: '0.75rem' }}>TARIFICATION CLAIRE</div>
-              <h2 style={{ fontSize: '1.5rem', fontWeight: 900 }}>Prix transparents</h2>
+              <h2 style={{ fontSize: '1.8rem', fontWeight: 900, letterSpacing: '-0.02em', margin: '0 0 0.5rem' }}>Un investissement <span style={{ background: 'linear-gradient(135deg,#818CF8,#34D399)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>transparent</span></h2>
+              <p style={{ fontSize: '0.9rem', color: '#64748B', margin: 0 }}>Pas d&apos;abonnement mensuel caché.</p>
             </div>
 
-            {/* Purchase box */}
-            <div style={{ background: 'rgba(30,41,59,0.9)', border: '1px solid rgba(255,255,255,0.07)', borderRadius: '1.2rem', padding: '1.5rem', marginBottom: '1rem', textAlign: 'center' }}>
-              <div style={{ fontSize: '0.72rem', color: '#64748B', textTransform: 'uppercase', fontWeight: 700, letterSpacing: '0.06em', marginBottom: '0.5rem' }}>Achat du Logiciel — Une seule fois</div>
-              <div style={{ fontSize: '2.4rem', fontWeight: 900, color: '#F8FAFC' }}>1 000 000 <span style={{ fontSize: '1rem', color: '#818CF8', fontWeight: 700 }}>GNF</span></div>
-              <div style={{ fontSize: '0.8rem', color: '#64748B', marginTop: '0.4rem' }}>Inclut l'installation et la configuration initiale</div>
-            </div>
-
-            {/* Licence box */}
-            <div style={{ background: 'rgba(99,102,241,0.12)', border: '1px solid rgba(129,140,248,0.3)', borderRadius: '1.2rem', padding: '1.5rem', marginBottom: '1.5rem', textAlign: 'center', position: 'relative', overflow: 'hidden' }}>
-              <div style={{ fontSize: '0.72rem', color: '#818CF8', textTransform: 'uppercase', fontWeight: 700, letterSpacing: '0.06em', marginBottom: '0.5rem' }}>Renouvellement Licence — Annuel</div>
-              <div style={{ fontSize: '2.4rem', fontWeight: 900, color: '#818CF8' }}>500 000 <span style={{ fontSize: '1rem', fontWeight: 700 }}>GNF / an</span></div>
-              <div style={{ fontSize: '0.8rem', color: '#818CF8', opacity: 0.7, marginTop: '0.4rem' }}>Support, maintenance et mises à jour inclus</div>
-            </div>
-
-            {/* Avantages */}
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem', marginBottom: '1.5rem' }}>
-              {[
-                'Installation complète par notre équipe',
-                'Base de données privée et sécurisée',
-                'Formation du personnel administratif',
-                'Assistance prioritaire via WhatsApp',
-              ].map((item, i) => (
-                <div key={i} style={{ display: 'flex', gap: '0.75rem', alignItems: 'center', background: 'rgba(30,41,59,0.5)', padding: '0.9rem 1rem', borderRadius: '0.75rem' }}>
-                  <CheckCircle2 size={18} color="#34D399" style={{ flexShrink: 0 }} />
-                  <span style={{ fontSize: '0.875rem', color: '#CBD5E1' }}>{item}</span>
+            <div style={{ background: 'rgba(30,41,59,0.9)', border: '1px solid rgba(255,255,255,0.07)', borderRadius: '1.5rem', overflow: 'hidden', marginBottom: '1.5rem' }}>
+              <div style={{ height: '4px', background: 'linear-gradient(90deg, #6366F1, #34D399)' }} />
+              <div style={{ padding: '1.5rem' }}>
+                <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '1.25rem' }}>
+                  <span style={{ background: 'rgba(129,140,248,0.12)', color: '#818CF8', padding: '0.25rem 1rem', borderRadius: '1rem', fontSize: '0.8rem', fontWeight: 800, letterSpacing: '0.05em' }}>PACK DÉPLOIEMENT & LICENCE</span>
                 </div>
-              ))}
-            </div>
 
-            <a href={waLink} target="_blank" rel="noreferrer" className="mob-btn-primary" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.5rem', background: 'linear-gradient(135deg, #6366F1, #818CF8)', color: 'white', padding: '1.1rem', borderRadius: '1rem', fontWeight: 800, fontSize: '1rem', textDecoration: 'none', textAlign: 'center', letterSpacing: '0.03em' }}>
-              Contacter pour Commander
-            </a>
+                <div style={{ background: 'rgba(15,23,42,0.6)', padding: '1.25rem', borderRadius: '1rem', marginBottom: '0.75rem', textAlign: 'center', border: '1px solid rgba(255,255,255,0.05)' }}>
+                  <div style={{ fontSize: '0.72rem', color: '#64748B', textTransform: 'uppercase', fontWeight: 700, letterSpacing: '0.06em', marginBottom: '0.4rem' }}>Achat du Logiciel — Une seule fois</div>
+                  <div style={{ fontSize: '2.2rem', fontWeight: 900, color: '#F8FAFC' }}>1 000 000 <span style={{ fontSize: '1rem', color: '#818CF8', fontWeight: 700 }}>GNF</span></div>
+                  <div style={{ fontSize: '0.78rem', color: '#64748B', marginTop: '0.4rem' }}>Inclut l&apos;installation et la configuration initiale</div>
+                </div>
+
+                <div style={{ background: 'rgba(99,102,241,0.12)', padding: '1.25rem', borderRadius: '1rem', marginBottom: '1.5rem', textAlign: 'center', border: '1px solid rgba(129,140,248,0.3)' }}>
+                  <div style={{ fontSize: '0.72rem', color: '#818CF8', textTransform: 'uppercase', fontWeight: 700, letterSpacing: '0.06em', marginBottom: '0.4rem' }}>Renouvellement Licence — Annuel</div>
+                  <div style={{ fontSize: '2.2rem', fontWeight: 900, color: '#818CF8' }}>500 000 <span style={{ fontSize: '1rem', fontWeight: 700 }}>GNF / an</span></div>
+                  <div style={{ fontSize: '0.78rem', color: '#818CF8', opacity: 0.75, marginTop: '0.4rem' }}>Support, maintenance et mises à jour inclus</div>
+                </div>
+
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '0.65rem', marginBottom: '1.5rem' }}>
+                  {[
+                    'Installation complète par notre équipe',
+                    'Base de données privée et sécurisée',
+                    'Formation du personnel administratif',
+                    'Assistance prioritaire via WhatsApp',
+                  ].map((item, i) => (
+                    <div key={i} style={{ display: 'flex', gap: '0.75rem', alignItems: 'center', background: 'rgba(15,23,42,0.4)', padding: '0.85rem 1rem', borderRadius: '0.75rem', border: '1px solid rgba(255,255,255,0.04)' }}>
+                      <CheckCircle2 size={18} color="#34D399" style={{ flexShrink: 0 }} />
+                      <span style={{ fontSize: '0.875rem', color: '#CBD5E1' }}>{item}</span>
+                    </div>
+                  ))}
+                </div>
+
+                <a href={waLink} target="_blank" rel="noreferrer" className="mob-btn-primary" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.5rem', background: 'linear-gradient(135deg, #6366F1, #818CF8)', color: 'white', padding: '1.1rem', borderRadius: '1rem', fontWeight: 800, fontSize: '1rem', textDecoration: 'none', textAlign: 'center', letterSpacing: '0.03em' }}>
+                  Contacter pour Commander
+                </a>
+              </div>
+            </div>
           </div>
         )}
 
