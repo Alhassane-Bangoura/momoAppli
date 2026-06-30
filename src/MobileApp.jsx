@@ -1,5 +1,6 @@
-import React from 'react';
-import { Download, GraduationCap, Calculator, FileText, CreditCard, IdCard, WifiOff, Play, Shield, Rocket, Home, Star, MessageCircle, CheckCircle2, Settings } from 'lucide-react';
+import React, { useState, useEffect, useRef } from 'react';
+import { Download, GraduationCap, Calculator, FileText, CreditCard, IdCard, WifiOff, Play, Shield, Rocket, Home, Star, MessageCircle, CheckCircle2, Settings, ArrowLeft } from 'lucide-react';
+import { features, parametresSubFeatures } from './pages/Fonctionnalites';
 import logo from './assets/logoguineeecole (2).png';
 
 const waNumber = "+224620465582";
@@ -13,6 +14,7 @@ const mobileStyles = `
   @keyframes mob-glow   { 0%,100% { box-shadow:0 0 0 0 rgba(99,102,241,0.55); } 60% { box-shadow:0 0 0 14px rgba(99,102,241,0); } }
   @keyframes mob-shine  { 0%{ left:-100%; } 18%{ left:200%; } 100%{ left:200%; } }
   @keyframes mob-float  { 0%,100%{ transform:translateY(0); } 50%{ transform:translateY(-6px); } }
+  @keyframes marquee { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
   .mob-card { animation: mob-fadein 0.45s cubic-bezier(.22,.68,0,1.2) both; }
   .mob-card:nth-child(2) { animation-delay:.07s; }
   .mob-card:nth-child(3) { animation-delay:.14s; }
@@ -23,13 +25,40 @@ const mobileStyles = `
   .mob-btn-primary::after { content:''; position:absolute; top:0; left:-100%; width:45%; height:100%; background:linear-gradient(90deg,transparent,rgba(255,255,255,0.35),transparent); transform:skewX(-18deg); animation:mob-shine 3s infinite; }
   .mob-hero-img { animation: mob-float 4s ease-in-out infinite; }
   .mob-badge { animation: mob-scale 0.5s cubic-bezier(.22,.68,0,1.2) both; }
+  .hide-scrollbar::-webkit-scrollbar { display: none; }
+  .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
 `;
 
 export default function MobileApp() {
-  const [tab, setTab] = React.useState('home');
-  const [prevTab, setPrevTab] = React.useState('home');
+  const [tab, setTab] = useState('accueil');
+  const [prevTab, setPrevTab] = useState('accueil');
+  const [activeFeatureId, setActiveFeatureId] = useState(null);
 
-  const goTo = (id) => { setPrevTab(tab); setTab(id); };
+  const updateSliderRef = useRef(null);
+  const schoolSliderRef = useRef(null);
+
+  useEffect(() => {
+    let intervalId;
+    if (tab === 'accueil') {
+      intervalId = setInterval(() => {
+        [updateSliderRef, schoolSliderRef].forEach(ref => {
+          if (ref.current) {
+            ref.current.scrollLeft += 1;
+            if (ref.current.scrollLeft >= ref.current.scrollWidth - ref.current.clientWidth) {
+              ref.current.scrollLeft = 0;
+            }
+          }
+        });
+      }, 30);
+    }
+    return () => clearInterval(intervalId);
+  }, [tab]);
+
+  const goTo = (id) => { 
+    setPrevTab(tab); 
+    setTab(id); 
+    if (id !== 'features') setActiveFeatureId(null);
+  };
 
   return (
     <div style={{
@@ -68,18 +97,40 @@ export default function MobileApp() {
       {/* CONTENT */}
       <div style={{ paddingTop: '60px' }}>
 
-        {/* ======= APPLI (HOME) ======= */}
-        {tab === 'home' && (
+        {/* ======= ACCUEIL ======= */}
+        {tab === 'accueil' && (
           <div>
+            {/* Slider Mises à jour */}
+            <div style={{ paddingTop: '1.5rem', paddingBottom: '1rem' }}>
+              <div style={{ padding: '0 1.4rem', marginBottom: '0.8rem', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                <Rocket size={18} color="#818CF8" />
+                <h3 style={{ fontSize: '1rem', fontWeight: 800, color: '#F8FAFC' }}>Nouvelles Mises à jour</h3>
+              </div>
+              <div ref={updateSliderRef} className="hide-scrollbar" style={{ display: 'flex', overflowX: 'auto', gap: '1rem', padding: '0 1.4rem' }}>
+                {[
+                  { badge: 'Nouveau', title: 'Version v2026', desc: 'Interface repensée et performances améliorées.', color: '#34D399' },
+                  { badge: 'Mise à jour', title: 'Génération PDF', desc: 'Création de bulletins 3x plus rapide.', color: '#818CF8' },
+                  { badge: 'Module', title: 'Cartes Scolaires', desc: 'Impression en lot automatique avec photo.', color: '#F472B6' },
+                ].map((update, i) => (
+                  <div key={i} style={{ minWidth: '80vw', background: 'rgba(30,41,59,0.8)', border: '1px solid rgba(255,255,255,0.05)', borderRadius: '1rem', padding: '1.2rem', flexShrink: 0 }}>
+                    <div style={{ display: 'inline-block', background: `${update.color}20`, color: update.color, padding: '0.2rem 0.6rem', borderRadius: '0.5rem', fontSize: '0.7rem', fontWeight: 700, marginBottom: '0.5rem' }}>{update.badge}</div>
+                    <div style={{ fontSize: '1.05rem', fontWeight: 800, color: '#F8FAFC', marginBottom: '0.3rem' }}>{update.title}</div>
+                    <div style={{ fontSize: '0.85rem', color: '#94A3B8', lineHeight: 1.4 }}>{update.desc}</div>
+                  </div>
+                ))}
+              </div>
+            </div>
+
             {/* Hero */}
             <div style={{
               background: 'linear-gradient(160deg, #1E293B 0%, #0F172A 60%)',
-              padding: '2.5rem 1.4rem 2rem',
+              padding: '2rem 1.4rem 2rem',
               textAlign: 'center',
               position: 'relative', overflow: 'hidden',
+              marginTop: '1rem',
             }}>
               {/* Glow blob */}
-              <div style={{ position: 'absolute', top: '-60px', left: '50%', transform: 'translateX(-50%)', width: '250px', height: '250px', background: 'radial-gradient(circle, rgba(99,102,241,0.3) 0%, transparent 70%)', pointerEvents: 'none' }} />
+              <div style={{ position: 'absolute', top: '-60px', left: '50%', transform: 'translateX(-50%)', width: '250px', height: '250px', background: 'radial-gradient(circle, rgba(99,102,241,0.2) 0%, transparent 70%)', pointerEvents: 'none' }} />
 
               <div className="mob-badge" style={{ display: 'inline-flex', alignItems: 'center', gap: '0.4rem', background: 'rgba(129,140,248,0.12)', border: '1px solid rgba(129,140,248,0.2)', borderRadius: '999px', padding: '0.3rem 0.9rem', fontSize: '0.75rem', fontWeight: 700, color: '#818CF8', marginBottom: '1.2rem' }}>
                 🇬🇳 Logiciel N°1 en Guinée
@@ -107,8 +158,30 @@ export default function MobileApp() {
               </div>
             </div>
 
+            {/* Slider Ecoles */}
+            <div style={{ padding: '2rem 0', overflow: 'hidden' }}>
+              <h3 style={{ textAlign: 'center', fontSize: '0.9rem', color: '#94A3B8', textTransform: 'uppercase', letterSpacing: '0.05em', marginBottom: '1.5rem', fontWeight: 700 }}>Ils nous font confiance</h3>
+              <div style={{ position: 'relative', width: '100%', display: 'flex' }}>
+                <div ref={schoolSliderRef} className="hide-scrollbar" style={{ display: 'flex', overflowX: 'auto', width: '100%' }}>
+                  {/* Duplicate list for infinite scroll effect */}
+                  {[...Array(4)].map((_, i) => (
+                    <React.Fragment key={i}>
+                      {["Complexe Scolaire Les Élites", "Groupe Scolaire Ousmane Camara", "Lycée d'Excellence de Kipé", "École Internationale", "Institut Rive Sud"].map((school, j) => (
+                        <div key={`${i}-${j}`} style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.05)', padding: '0.75rem 1.5rem', borderRadius: '999px', margin: '0 0.5rem', whiteSpace: 'nowrap', fontSize: '0.85rem', fontWeight: 600, color: '#CBD5E1', flexShrink: 0 }}>
+                          {school}
+                        </div>
+                      ))}
+                    </React.Fragment>
+                  ))}
+                </div>
+                {/* Gradient Masks */}
+                <div style={{ position: 'absolute', top: 0, left: 0, width: '40px', height: '100%', background: 'linear-gradient(to right, #0F172A, transparent)' }} />
+                <div style={{ position: 'absolute', top: 0, right: 0, width: '40px', height: '100%', background: 'linear-gradient(to left, #0F172A, transparent)' }} />
+              </div>
+            </div>
+
             {/* Image */}
-            <div style={{ padding: '1.5rem 1.4rem 0' }}>
+            <div style={{ padding: '0 1.4rem' }}>
               <img src="/guinea_classroom.png" alt="École en Guinée" className="mob-hero-img" style={{ width: '100%', borderRadius: '1.2rem', objectFit: 'cover', maxHeight: '200px', border: '1px solid rgba(255,255,255,0.06)' }} />
             </div>
 
@@ -134,14 +207,14 @@ export default function MobileApp() {
           </div>
         )}
 
-        {/* ======= ESSAYER (INSTALLATION) ======= */}
-        {tab === 'installation' && (
+        {/* ======= APPLI ======= */}
+        {tab === 'appli' && (
           <div className="mob-card" style={{ padding: '2.5rem 1.4rem' }}>
             <div style={{ textAlign: 'center', marginBottom: '2rem' }}>
               <div style={{ display: 'inline-flex', alignItems: 'center', gap: '0.4rem', background: 'rgba(52,211,153,0.12)', color: '#34D399', padding: '0.3rem 0.9rem', borderRadius: '999px', fontSize: '0.75rem', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.05em', marginBottom: '1rem' }}>
-                Commencer
+                Téléchargement
               </div>
-              <h2 style={{ fontSize: '1.8rem', fontWeight: 900, marginBottom: '0.5rem', color: '#F8FAFC' }}>Prêt à essayer ?</h2>
+              <h2 style={{ fontSize: '1.8rem', fontWeight: 900, marginBottom: '0.5rem', color: '#F8FAFC' }}>L'Application</h2>
               <p style={{ fontSize: '0.9rem', color: '#94A3B8', lineHeight: 1.5 }}>
                 Téléchargez les fichiers ci-dessous ou visionnez les démonstrations pour voir Guinée École en action.
               </p>
@@ -167,29 +240,93 @@ export default function MobileApp() {
         {/* ======= FEATURES ======= */}
         {tab === 'features' && (
           <div style={{ padding: '1.5rem 1.4rem' }}>
-            <div style={{ textAlign: 'center', marginBottom: '1.5rem' }}>
-              <div style={{ display: 'inline-block', background: 'rgba(129,140,248,0.12)', color: '#818CF8', padding: '0.25rem 0.9rem', borderRadius: '999px', fontSize: '0.7rem', fontWeight: 800, letterSpacing: '0.05em', marginBottom: '0.75rem' }}>FONCTIONNALITÉS</div>
-              <h2 style={{ fontSize: '1.5rem', fontWeight: 900 }}>Tout ce qu'il vous faut</h2>
-              <p style={{ fontSize: '0.85rem', color: '#64748B', marginTop: '0.5rem' }}>Une solution complète, 100% hors ligne.</p>
-            </div>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
-              {[
-                { icon: <GraduationCap size={20}/>, title: 'Gestion des élèves', desc: 'Inscriptions, absences, dossiers complets en 2 secondes.' },
-                { icon: <Calculator size={20}/>, title: 'Calcul automatique', desc: 'Toutes les moyennes générées en un clic, sans erreur.' },
-                { icon: <FileText size={20}/>, title: 'Bulletins PDF Pro', desc: 'Bulletins imprimables et professionnels prêts à distribuer.' },
-                { icon: <CreditCard size={20}/>, title: 'Paiements scolaires', desc: 'Suivi des frais, relances, reçus PDF en quelques secondes.' },
-                { icon: <IdCard size={20}/>, title: 'Cartes scolaires', desc: 'Cartes d\'identité scolaires avec photo — automatiquement.' },
-                { icon: <WifiOff size={20}/>, title: '100% Hors Ligne', desc: 'Aucun internet requis. Données stockées localement.' },
-              ].map((f, i) => (
-                <div key={i} className="mob-card" style={{ display: 'flex', gap: '1rem', alignItems: 'flex-start', background: 'rgba(30,41,59,0.8)', padding: '1.2rem', borderRadius: '1rem', border: '1px solid rgba(255,255,255,0.05)' }}>
-                  <div style={{ width: 44, height: 44, borderRadius: '0.75rem', background: 'rgba(129,140,248,0.15)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#818CF8', flexShrink: 0 }}>{f.icon}</div>
-                  <div>
-                    <div style={{ fontWeight: 700, marginBottom: '0.25rem', fontSize: '0.95rem' }}>{f.title}</div>
-                    <div style={{ fontSize: '0.82rem', color: '#64748B', lineHeight: 1.5 }}>{f.desc}</div>
-                  </div>
+            {!activeFeatureId ? (
+              <>
+                <div style={{ textAlign: 'center', marginBottom: '1.5rem' }}>
+                  <div style={{ display: 'inline-block', background: 'rgba(129,140,248,0.12)', color: '#818CF8', padding: '0.25rem 0.9rem', borderRadius: '999px', fontSize: '0.7rem', fontWeight: 800, letterSpacing: '0.05em', marginBottom: '0.75rem' }}>FONCTIONNALITÉS</div>
+                  <h2 style={{ fontSize: '1.5rem', fontWeight: 900 }}>Tout ce qu'il vous faut</h2>
+                  <p style={{ fontSize: '0.85rem', color: '#64748B', marginTop: '0.5rem' }}>Une solution complète, 100% hors ligne.</p>
                 </div>
-              ))}
-            </div>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
+                  {features.map((f, i) => (
+                    <div key={f.id} onClick={() => setActiveFeatureId(f.id)} className="mob-card" style={{ display: 'flex', gap: '1rem', alignItems: 'center', background: 'rgba(30,41,59,0.8)', padding: '1.2rem', borderRadius: '1rem', border: '1px solid rgba(255,255,255,0.05)', cursor: 'pointer' }}>
+                      <div style={{ width: 44, height: 44, borderRadius: '0.75rem', background: `${f.color}20`, display: 'flex', alignItems: 'center', justifyContent: 'center', color: f.color, flexShrink: 0 }}>{f.icon}</div>
+                      <div style={{ flex: 1 }}>
+                        <div style={{ fontWeight: 700, fontSize: '0.95rem' }}>{f.label}</div>
+                      </div>
+                      <ArrowLeft size={16} color="#64748B" style={{ transform: 'rotate(180deg)' }} />
+                    </div>
+                  ))}
+                </div>
+              </>
+            ) : (
+              (() => {
+                let current = features.find(f => f.id === activeFeatureId) || parametresSubFeatures.find(f => f.id === activeFeatureId);
+                const isParam = !!parametresSubFeatures.find(f => f.id === activeFeatureId);
+                
+                return (
+                  <div className="mob-card feature-content-enter">
+                    <button onClick={() => {
+                      if (isParam) setActiveFeatureId('parametres');
+                      else setActiveFeatureId(null);
+                    }} style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', background: 'none', border: 'none', color: '#818CF8', fontWeight: 700, padding: 0, marginBottom: '1.5rem', cursor: 'pointer' }}>
+                      <ArrowLeft size={18} /> Retour
+                    </button>
+                    
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', marginBottom: '1.5rem' }}>
+                      <div style={{ width: 56, height: 56, borderRadius: '14px', background: `linear-gradient(135deg, ${current.color}20, ${current.color}10)`, display: 'flex', alignItems: 'center', justifyContent: 'center', color: current.color, flexShrink: 0, border: `1px solid ${current.color}30`, boxShadow: `0 8px 24px ${current.color}20` }}>
+                        {React.cloneElement(current.icon, { size: 28 })}
+                      </div>
+                      <h2 style={{ fontSize: '1.6rem', fontWeight: 900, color: '#F8FAFC', margin: 0, lineHeight: 1.15, letterSpacing: '-0.02em' }}>{current.title}</h2>
+                    </div>
+                    
+                    <div style={{ padding: '1.25rem', background: 'rgba(30,41,59,0.4)', borderRadius: '1rem', border: '1px solid rgba(255,255,255,0.05)', marginBottom: '2rem' }}>
+                      <p style={{ fontSize: '1rem', color: '#94A3B8', lineHeight: 1.6, margin: 0 }}>
+                        {current.description}
+                      </p>
+                    </div>
+                    
+                    <h3 style={{ fontSize: '1.1rem', fontWeight: 800, color: '#F8FAFC', marginBottom: '1.25rem', textTransform: 'uppercase', letterSpacing: '0.05em', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                      <span style={{ width: '10px', height: '10px', borderRadius: '3px', background: current.color }}></span>
+                      Points clés
+                    </h3>
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem', marginBottom: '2.5rem' }}>
+                      {current.points.map((p, i) => (
+                        <div key={i} style={{ display: 'flex', alignItems: 'flex-start', gap: '1rem', background: 'rgba(30,41,59,0.8)', border: '1px solid rgba(255,255,255,0.05)', borderRadius: '1rem', padding: '1.25rem' }}>
+                          <div style={{ width: '24px', height: '24px', borderRadius: '6px', background: `${current.color}20`, color: current.color, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, fontWeight: 800, fontSize: '0.75rem' }}>
+                            {i + 1}
+                          </div>
+                          <span style={{ fontSize: '0.95rem', color: '#E2E8F0', lineHeight: 1.5, fontWeight: 500 }}>{p}</span>
+                        </div>
+                      ))}
+                    </div>
+
+                    {/* Screenshot placeholder mobile */}
+                    <div style={{ background: 'rgba(30,41,59,0.5)', border: '1px solid rgba(255,255,255,0.05)', borderRadius: '1.25rem', padding: '2rem 1.5rem', textAlign: 'center', color: '#94A3B8', position: 'relative', overflow: 'hidden' }}>
+                      <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: '3px', background: `linear-gradient(90deg, ${current.color}, transparent)` }}></div>
+                      <div style={{ fontSize: '2.5rem', marginBottom: '1rem', opacity: 0.8 }}>📱</div>
+                      <div style={{ fontWeight: 800, fontSize: '1.1rem', color: '#F8FAFC', marginBottom: '0.5rem' }}>Interface Mobile/Tablette</div>
+                      <div style={{ fontSize: '0.85rem' }}>Capture d'écran <strong>{current.title}</strong> à venir.</div>
+                    </div>
+
+                    {current.id === 'parametres' && (
+                      <div style={{ marginTop: '2rem' }}>
+                        <h3 style={{ fontSize: '1rem', fontWeight: 800, color: '#F8FAFC', marginBottom: '1rem', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Sous-modules Paramètres</h3>
+                        <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
+                          {parametresSubFeatures.map(f => (
+                            <div key={f.id} onClick={() => setActiveFeatureId(f.id)} style={{ display: 'flex', gap: '1rem', alignItems: 'center', background: 'rgba(30,41,59,0.8)', padding: '1rem', borderRadius: '0.75rem', border: '1px solid rgba(255,255,255,0.05)', cursor: 'pointer' }}>
+                              <div style={{ width: 36, height: 36, borderRadius: '0.5rem', background: `${f.color}20`, display: 'flex', alignItems: 'center', justifyContent: 'center', color: f.color, flexShrink: 0 }}>{React.cloneElement(f.icon, { size: 18 })}</div>
+                              <div style={{ flex: 1, fontWeight: 700, fontSize: '0.9rem', color: '#F8FAFC' }}>{f.label}</div>
+                              <ArrowLeft size={16} color="#64748B" style={{ transform: 'rotate(180deg)' }} />
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                );
+              })()
+            )}
           </div>
         )}
 
@@ -297,8 +434,8 @@ export default function MobileApp() {
         height: '65px',
       }}>
         {[
+          { id: 'accueil',      icon: <Home size={22}/>,        label: 'Accueil' },
           { id: 'features',     icon: <Star size={22}/>,        label: 'Fonctions' },
-          { id: 'home',         icon: <Home size={22}/>,        label: 'Appli' },
           { id: 'pricing',      icon: <CreditCard size={22}/>,  label: 'Tarifs' },
           { id: 'contact',      icon: <MessageCircle size={22}/>, label: 'Contact' },
         ].map(item => (
@@ -318,8 +455,8 @@ export default function MobileApp() {
             {item.label}
           </button>
         ))}
-        {/* Bouton Essai Gratuit = call-to-action */}
-        <a href="#" onClick={(e)=>{ e.preventDefault(); goTo('installation'); }} style={{
+        {/* Bouton Appli = call-to-action */}
+        <a href="#" onClick={(e)=>{ e.preventDefault(); goTo('appli'); }} style={{
           flex: 1.2, display: 'flex', flexDirection: 'column', alignItems: 'center',
           justifyContent: 'center', gap: '0.2rem',
           background: 'linear-gradient(135deg,#6366F1,#818CF8)',
@@ -328,8 +465,8 @@ export default function MobileApp() {
           padding: '0.3rem 0.1rem',
           borderTop: '2px solid transparent',
         }}>
-          <Rocket size={20}/>
-          Essayer
+          <Download size={20}/>
+          Appli
         </a>
       </nav>
     </div>
